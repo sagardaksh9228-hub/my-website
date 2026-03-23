@@ -181,6 +181,7 @@
       <span class="user-badge" id="user-name-display"></span>
       <button class="btn-sm" onclick="toggleTheme()">🌙</button>
       <button class="btn-sm success-btn" onclick="newChat()">+ New Chat</button>
+      <button class="btn-sm danger" onclick="confirmDeleteChat()">🗑️ Delete Chat</button>
       <button class="btn-sm accent" id="admin-btn" onclick="showAdmin()" style="display:none">Admin</button>
       <button class="btn-sm danger" onclick="logout()">Logout</button>
     </div>
@@ -472,6 +473,22 @@ async function loadAdminData() {
         </div>`).join('') : '<div class="empty-state">Koi chats nahi</div>';
     }
   } catch(e){ console.log(e); }
+}
+
+function confirmDeleteChat() {
+  document.getElementById('confirm-title').textContent = 'Chat Delete Karo?';
+  document.getElementById('confirm-msg').textContent = 'Aapki poori chat history hamesha ke liye delete ho jayegi!';
+  document.getElementById('confirm-btn').onclick = () => deleteChat();
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+async function deleteChat() {
+  closeConfirm();
+  try {
+    await sb.from('messages').delete().eq('user_id', currentUser.id);
+    chatHistory = [];
+    document.getElementById('messages').innerHTML = '<div class="welcome"><h2>Namaste! 👋</h2><p>Main Sagar AI hoon. Kuch bhi poochho!</p></div>';
+  } catch(e) { alert('Error: ' + e.message); }
 }
 
 function confirmBlock(email) {

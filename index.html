@@ -570,9 +570,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============ CONFIG ============
-let SUPABASE_URL = localStorage.getItem('sb_url') || '';
-let SUPABASE_KEY = localStorage.getItem('sb_key') || '';
-let CLAUDE_KEY = localStorage.getItem('claude_key') || '';
+let SUPABASE_URL = localStorage.getItem('sb_url') || 'https://qgvoswhvoxwzndltbfgq.supabase.co';
+let SUPABASE_KEY = localStorage.getItem('sb_key') || 'sb_publishable_F7jYNsebeFpGh_dlIgNS8Q_9jkFLp2r';
+let CLAUDE_KEY = localStorage.getItem('claude_key') || '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';
 const ADMIN_EMAIL = 'admin@aichat.com'; // Change this to your email
 
 let supabaseClient = null;
@@ -625,7 +625,7 @@ function showMsg(msg, type='error') {
 }
 
 async function signup() {
-  if (!initSupabase()) return showMsg('Pehle API keys setup karo ⚙️');
+  initSupabase();
   const email = document.getElementById('signup-email').value.trim();
   const pass = document.getElementById('signup-password').value;
   if (!email || !pass) return showMsg('Email aur password dono bharo');
@@ -637,7 +637,7 @@ async function signup() {
 }
 
 async function login() {
-  if (!initSupabase()) return showMsg('Pehle API keys setup karo ⚙️');
+  initSupabase();
   const email = document.getElementById('login-email').value.trim();
   const pass = document.getElementById('login-password').value;
   if (!email || !pass) return showMsg('Email aur password dono bharo');

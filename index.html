@@ -405,7 +405,7 @@ async function sendMessage() {
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
       body: JSON.stringify({
-        model:'llama-3.3-70b-versatile',
+        model:'llama3-70b-8192',
         messages:[
           {role:'system', content:`Tumhara naam Sagar AI hai. Tumhe Sagar Kumar ne banaya hai. Yeh sirf tab batao jab koi pooche ki tumhe kisne banaya. User ka naam ${userName} hai. Helpful assistant ho. Hindi ya English mein jawab do jaise user baat kare.`},
           ...chatHistory.slice(-10)

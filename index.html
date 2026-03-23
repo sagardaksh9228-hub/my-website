@@ -167,18 +167,6 @@
       <div class="form-group"><label>Password</label><input type="password" id="signup-password" placeholder="Min 6 characters"></div>
       <button class="btn-primary" onclick="signup()">Create Account →</button>
     </div>
-    <div id="otp-form" style="display:none">
-      <div style="text-align:center; margin-bottom:1rem;">
-        <div style="font-size:2rem">📧</div>
-        <p style="color:var(--muted); font-size:0.85rem; margin-top:0.5rem;">Aapki email pe OTP bheja gaya hai!</p>
-        <p id="otp-email-display" style="color:var(--accent); font-size:0.85rem; margin-top:0.25rem;"></p>
-      </div>
-      <div class="form-group"><label>OTP Code</label><input type="text" id="otp-input" placeholder="6 digit code" maxlength="6" style="text-align:center; font-size:1.5rem; letter-spacing:0.5rem; font-family:'Space Mono',monospace;"></div>
-      <button class="btn-primary" onclick="verifyOTP()">Verify OTP →</button>
-      <div style="text-align:center; margin-top:1rem;">
-        <button onclick="resendOTP()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:'Sora',sans-serif; font-size:0.85rem;">Dobara OTP bhejo</button>
-      </div>
-    </div>
     <div id="auth-msg" class="auth-msg"></div>
   </div>
 </div>
@@ -318,35 +306,8 @@ async function signup() {
   showMsg('Account ban raha hai...', 'success');
   const {error} = await sb.auth.signUp({email, password:pass, options:{data:{name}}});
   if(error) return showMsg(error.message);
-  showMsg('OTP aapki email pe bheja gaya!', 'success');
-  // Show OTP form
-  document.getElementById('signup-form').style.display = 'none';
-  document.getElementById('otp-form').style.display = 'block';
-  document.getElementById('otp-email-display').textContent = email;
-  document.getElementById('otp-form').dataset.email = email;
-  document.getElementById('otp-form').dataset.type = 'signup';
-}
-
-async function verifyOTP() {
-  const otpForm = document.getElementById('otp-form');
-  const email = otpForm.dataset.email;
-  const type = otpForm.dataset.type;
-  const token = document.getElementById('otp-input').value.trim();
-  if(!token || token.length < 6) return showMsg('6 digit OTP daalo');
-  showMsg('Verify ho raha hai...', 'success');
-  const {data, error} = await sb.auth.verifyOtp({email, token, type: type === 'signup' ? 'signup' : 'email'});
-  if(error) return showMsg(error.message);
-  currentUser = data.user;
-  userName = currentUser.user_metadata?.name || currentUser.email.split('@')[0];
-  document.getElementById('otp-form').style.display = 'none';
-  await checkBlocked();
-}
-
-async function resendOTP() {
-  const email = document.getElementById('otp-form').dataset.email;
-  const {error} = await sb.auth.resend({type:'signup', email});
-  if(error) return showMsg(error.message);
-  showMsg('OTP dobara bheja gaya!', 'success');
+  showMsg('Account bana! Ab login karo.', 'success');
+  switchTab('login');
 }
 
 async function login() {
